@@ -99,7 +99,7 @@ part1/
 
 ## 🔗 Repository Info
 
-* **GitHub Repository**: [https://github.com/YOUR\_USERNAME/holbertonschool-hbnb](https://github.com/YOUR_USERNAME/holbertonschool-hbnb)
+* **GitHub Repository** https://github.com/Marivellisse/holbertonschool-hbnb
 * **Project Directory**: `part1/`
 
 ---
