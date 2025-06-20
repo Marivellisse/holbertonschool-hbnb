@@ -1,106 +1,142 @@
-# HBnB Evolution - Part 2: Business Logic and API
 
-## 📘 Overview
+# HBnB Evolution - Part 2
 
-This part of the HBnB project focuses on bringing the previously documented design to life by implementing the core business logic and RESTful API using Python, Flask, and flask-restx. It covers the construction of the application's Presentation and Business Logic layers using modular architecture and the facade pattern.
+## 📌 Project Overview
+
+HBnB Evolution is a RESTful API application designed to simulate a simplified AirBnB-like platform. It allows users to register, create places, add amenities, leave reviews, and interact with property data through a structured layered architecture using Flask and Flask-RESTx.
+
+This part of the project focuses on implementing:
+
+- REST API endpoints for `User`, `Place`, `Amenity`, and `Review` entities
+- Business logic abstraction via a Facade pattern
+- Input validation
+- Swagger documentation
+- Testing using `cURL` and manual API interaction
 
 ---
 
-## 📁 Project Structure
+## 🧱 Architecture
 
+The application follows a 3-layer structure:
+
+- **Presentation Layer**: Uses Flask-RESTx to define namespaces and endpoints (routes).
+- **Business Logic Layer**: Contains core logic in the `services/facade.py` and model validations.
+- **Data Layer**: For this version, data is stored in in-memory dictionaries (`USERS`, `PLACES`, `REVIEWS`, `AMENITIES`).
+
+---
+
+## 🚀 How to Run
+
+### Step 1: Install Dependencies
+
+```bash
+pip install flask flask-restx
 ```
-part2/
-├── app/
-│   ├── main.py
-│   ├── presentation/
-│   │   └── routes/
-│   ├── business/
-│   │   └── models/
-│   ├── persistence/
-├── requirements.txt
-└── README.md
+
+### Step 2: Run the Application
+
+```bash
+PYTHONPATH=. python3 app/main.py
 ```
 
-- `presentation/`: Contains all Flask API endpoints (Presentation Layer).
-- `business/`: Core classes and relationships (Business Logic Layer).
-- `persistence/`: Temporary in-memory storage (will be replaced by DB in Part 3).
+The API will be available at:  
+**http://127.0.0.1:5001/api/v1**
+
+Swagger Docs:  
+**http://127.0.0.1:5001/api/v1/**
 
 ---
 
-## 🧱 Implemented Layers
+## 📘 Available Endpoints
 
-### 🔹 Business Logic Layer
-- Defines models: `User`, `Place`, `Review`, `Amenity`
-- Relationships and data validation logic
-- Centralized communication via a `Facade` class
+### 👤 Users
 
-### 🔹 Presentation Layer
-- Built using `Flask` and `flask-restx`
-- RESTful endpoints for each model (CRUD)
-- Swagger UI auto-generated for testing and documentation
+- `POST /users/` - Create a new user
+- `GET /users/` - List all users
 
----
+### 🏠 Places
 
-## 🎯 Objectives
+- `POST /places/` - Create a new place
+- `GET /places/` - List all places
+- `GET /places/<place_id>` - Get place by ID
+- `PUT /places/<place_id>` - Update place
 
-- [x] Create modular project structure
-- [x] Implement business models and logic
-- [x] Apply the facade pattern to connect layers
-- [x] Build RESTful endpoints for `User`, `Place`, `Review`, `Amenity`
-- [x] Support in-memory persistence with UUIDs and timestamps
-- [x] Test with Swagger, Postman, and cURL
+### 🛋️ Amenities
 
----
+- `POST /amenities/` - Create a new amenity
+- `GET /amenities/` - List all amenities
+- `GET /amenities/<amenity_id>` - Get amenity by ID
 
-## 🔌 How to Run
+### 📝 Reviews
 
-1. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-2. Run the API server:
-   ```bash
-   python app/main.py
-   ```
-
-3. Access Swagger UI:
-   ```
-   http://localhost:5000/
-   ```
+- `POST /reviews/` - Create a new review
+- `GET /reviews/` - List all reviews
+- `GET /reviews/<review_id>` - Get review by ID
+- `PUT /reviews/<review_id>` - Update review
+- `DELETE /reviews/<review_id>` - Delete review
+- `GET /places/<place_id>/reviews` - List reviews for a place
 
 ---
 
-## 🧪 Testing
+## ✅ Example Test with cURL
 
-- Use **Postman** or **cURL** to test endpoints.
-- Use **Swagger UI** for interactive testing and docs.
-- All endpoints are designed to handle edge cases and return proper status codes.
+Create a user:
+
+```bash
+curl -X POST http://127.0.0.1:5001/api/v1/users/ \
+-H "Content-Type: application/json" \
+-d '{"first_name": "Ana", "last_name": "Martínez", "email": "ana@example.com", "password": "1234"}'
+```
+
+Create a place:
+
+```bash
+curl -X POST http://127.0.0.1:5001/api/v1/places/ \
+-H "Content-Type: application/json" \
+-d '{"title": "Beachfront Villa", "description": "Relaxing vibes", "price": 200, "latitude": 18.45, "longitude": -66.08, "owner_id": "USER_ID", "amenities": []}'
+```
+
+Create a review:
+
+```bash
+curl -X POST http://127.0.0.1:5001/api/v1/reviews/ \
+-H "Content-Type: application/json" \
+-d '{"text": "Amazing stay!", "rating": 5, "user_id": "USER_ID", "place_id": "PLACE_ID"}'
+```
 
 ---
 
-## 🧰 Technologies Used
+## 🧪 Validation Rules
 
-- Python 3.x
-- Flask
-- flask-restx
-- UUID4 for object identifiers
-- In-memory repository (Part 3 will use SQLAlchemy)
+- **Users**: `email`, `first_name`, and `last_name` must be provided and valid.
+- **Places**: `title`, `price`, `latitude`, and `longitude` are required and validated.
+- **Reviews**: Must include `text`, `rating` (1–5), `user_id`, and `place_id`.
 
 ---
 
-## 🔒 Coming Soon in Part 3
+## 👩‍💻 Technologies
 
-- JWT Authentication
-- Role-based Access Control (RBAC)
-- SQL-based Persistence Layer
+- Python 3
+- Flask + Flask-RESTx
+- RESTful APIs
+- In-memory Data Storage
+- Swagger UI Documentation
 
 ---
 
-## 📂 Repository
+## 📎 Notes
 
-This code belongs to:
-`holbertonschool-hbnb/part2`
+- This application is for development/demo purposes.
+- No persistent database is used—data resets on restart.
+- Error handling and validations are basic and extendable.
 
-> Developed by [Marivellisse Garcia] — Holberton School 🇵🇷
+---
+
+## ✨ Authors
+
+- Marivellisse Garcia Lebron
+
+
+Holberton School – Cohort 26 
+Puerto Rico, 2025
 

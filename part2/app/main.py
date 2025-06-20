@@ -1,14 +1,12 @@
 from flask import Flask
-from flask_restx import Api
-from app.presentation.routes import api as api_namespace
+from app.presentation.routes import blueprint  # Importa el blueprint, no el api directo
 
 def create_app():
     app = Flask(__name__)
-    api = Api(app, title="HBnB API", version="1.0", description="HBnB Evolution REST API")
-    api.add_namespace(api_namespace, path="/api/v1")
+    app.register_blueprint(blueprint, url_prefix="/api/v1")  # Aquí se activa la API
     return app
 
 if __name__ == "__main__":
     app = create_app()
-    app.run(debug=True)
+    app.run(debug=True, port=5001)  # Usa un puerto alterno porque el 5000 está ocupado
 

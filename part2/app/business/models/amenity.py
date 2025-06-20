@@ -1,4 +1,4 @@
-from app.business.base_model import BaseModel
+from app.business.models.base_model import BaseModel
 
 class Amenity(BaseModel):
     def __init__(self, name, **kwargs):
