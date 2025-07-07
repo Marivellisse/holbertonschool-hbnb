@@ -1,0 +1,50 @@
+erDiagram
+
+    users {
+        INTEGER id PK
+        TEXT username
+        TEXT email
+        TEXT password_hash
+        TEXT role
+        BOOLEAN is_active
+        DATETIME created_at
+        DATETIME updated_at
+    }
+
+    places {
+        INTEGER id PK
+        TEXT name
+        TEXT description
+        INTEGER owner_id FK
+        DATETIME created_at
+        DATETIME updated_at
+    }
+
+    reviews {
+        INTEGER id PK
+        TEXT content
+        INTEGER rating
+        INTEGER user_id FK
+        INTEGER place_id FK
+        DATETIME created_at
+        DATETIME updated_at
+    }
+
+    amenities {
+        INTEGER id PK
+        TEXT name
+        DATETIME created_at
+        DATETIME updated_at
+    }
+
+    place_amenity {
+        INTEGER place_id PK, FK
+        INTEGER amenity_id PK, FK
+    }
+
+    users ||--o{ places : owns
+    users ||--o{ reviews : writes
+    places ||--o{ reviews : has
+    places ||--o{ place_amenity : has
+    amenities ||--o{ place_amenity : linked_to
+
